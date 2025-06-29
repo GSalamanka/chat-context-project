@@ -49,8 +49,8 @@ def send_message(msg: UserMessage, db: Session = Depends(get_db)):
     conversation = [{"role": m.role, "content": m.content} for m in history]
 
     # Отправляем историю сообщений в OpenAI API
-    response = openai.ChatCompletion.create(model="gpt-4o", messages=conversation)
-
+    client = openai.OpenAI()
+    response = client.chat.completions.create(model="gpt-4o", messages=conversation)
     reply_content = response.choices[0].message.content
 
     # Сохраняем ответ GPT обратно в базу
